@@ -1,0 +1,20 @@
+{
+  "name": "FGTracker Extension",
+  "description": "FGTracker Chrome Extension",
+  "version": "1.0.0",
+  "icons": {
+    "16": "icon.png",
+    "48": "icon.png",
+    "128": "icon.png"
+  },
+  "manifest_version": 3,
+  "web_accessible_resources": [
+    {
+      "resources": ["helpers.js", "styles.css"],
+      "matches": ["<all_urls>"]
+    }
+  ],
+  "action": {
+    "default_popup": "popup.html"
+  }
+}
