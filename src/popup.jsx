@@ -1,13 +1,13 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import { render } from 'react-dom';
 import { Form, Button } from 'react-bootstrap';
 import { formatDate, postSurvey } from './helpers';
 import './popup.css';
 
-const onSaveClick = async (newSurvey) => {
-  const response = await postSurvey(newSurvey);
-  console.log(response);
-};
+// const onSaveClick = async (newSurvey) => {
+//   const response = await postSurvey(newSurvey);
+//   console.log(response);
+// };
 
 const Popup = () => {
   const companyRef = useRef();
@@ -15,7 +15,9 @@ const Popup = () => {
   const paymentRef = useRef();
   const notesRef = useRef();
 
-  const handleSave = (e) => {
+  const [submissionStatus, setSubmissionStatus] = useState(null);
+
+  const handleSave = async (e) => {
     e.preventDefault();
     console.log('hello');
 
@@ -26,10 +28,25 @@ const Popup = () => {
       notes: notesRef.current.value,
       date_survey_completed: formatDate(new Date()),
     };
-    onSaveClick(newSurvey);
-
-    e.target.reset();
+    try {
+      await postSurvey(newSurvey);
+      setSubmissionStatus('success');
+      e.target.reset();
+    } catch (error) {
+      setSubmissionStatus('error');
+    }
   };
+
+  let statusMessage = null;
+  if (submissionStatus === 'success') {
+    statusMessage = (
+      <p className="success-message">Survey submitted successfully!</p>
+    );
+  } else if (submissionStatus === 'error') {
+    statusMessage = (
+      <p className="error-message">An error occurred. Please try again.</p>
+    );
+  }
 
   return (
     <div className="popup-container">
@@ -67,6 +84,7 @@ const Popup = () => {
               className="form-input text-area"
             />
           </Form.Group>
+          {statusMessage}
           <div className="submit-btn-container">
             <Button type="submit" variant="primary" className="submit-btn">
               Save

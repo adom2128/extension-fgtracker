@@ -53,7 +53,7 @@ body {
 .popup-container {
   background-color: #e0e2dc;
   width: 280px;
-  height: 470px;
+  height: 500px;
   display: flex;
   flex-direction: column;
   overflow: hidden;
@@ -93,6 +93,10 @@ body {
   display: flex;
   justify-content: center;
   border-top: 1px solid rgb(236, 233, 242);
+}
+
+.success-message {
+  text-align: center;
 }
 
 .text-area {
